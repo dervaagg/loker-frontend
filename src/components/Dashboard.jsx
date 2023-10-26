@@ -2,12 +2,12 @@ import { Card, CardBody, Typography } from "@material-tailwind/react";
 
 export function Dashboard() {
   return (
-    <div className="w-100 overflow-x-hidden h-screen fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div className="w-full overflow-x-hidden h-screen fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="ml-80 px-8 mt-10">
         <p className="text-md font-semibold text-sm">Dashboard</p>
       </div>
       <div className="ml-80 py-4 px-16 grid lg:grid-cols-3 gap-10 grid-cols-1">
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Lowongan Pekerjaan Aktif
@@ -15,7 +15,7 @@ export function Dashboard() {
             <Typography>1</Typography>
           </CardBody>
         </Card>
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Lowongan Pekerjaan Proses
@@ -23,7 +23,7 @@ export function Dashboard() {
             <Typography>1</Typography>
           </CardBody>
         </Card>
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Lowongan Pekerjaan Closed
@@ -31,7 +31,7 @@ export function Dashboard() {
             <Typography>1</Typography>
           </CardBody>
         </Card>
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Total Lowongan Pekerjaan
@@ -39,7 +39,7 @@ export function Dashboard() {
             <Typography>1</Typography>
           </CardBody>
         </Card>
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Total Perusahaan
@@ -47,7 +47,7 @@ export function Dashboard() {
             <Typography>1</Typography>
           </CardBody>
         </Card>
-        <Card className="w-80">
+        <Card className="w-full">
           <CardBody>
             <Typography variant="h6" color="blue-gray" className="mb-2">
               Total Pendaftar

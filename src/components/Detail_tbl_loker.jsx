@@ -66,7 +66,7 @@ const TABLE_ROWS = [
 
 export function Table3() {
   return (
-    <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>

@@ -11,7 +11,7 @@ import {
 
 export default function Form3() {
   return (
-    <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Update Job Vacancy</p>

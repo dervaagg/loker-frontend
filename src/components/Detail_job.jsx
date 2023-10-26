@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 
 export default function Form2() {
   return (
-    <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Job Vacancy Detail's</p>

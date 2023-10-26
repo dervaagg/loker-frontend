@@ -8,8 +8,32 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
+import { useState } from "react";
 
 export function Form1() {
+  const [formData, setFormData] = useState({
+    idperusahaan: '',
+    nama: '',
+    tipe: '',
+    deskripsi: '',
+    usia_min: 'null',
+    usia_max: 'null',
+    gaji_min: 'null',
+    gaji_max: 'null',
+    nama_cp: '',
+    no_tlp_cp: 'null',
+    tgl_update: 'null',
+    tgl_aktif: 'null',
+    tgl_tutup: 'null',
+    status: '',
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFromData({ ...formData, [name]: value });
+  };
+
+
   return (
     <div className="fixed " style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">

@@ -82,7 +82,7 @@ const TABLE_ROWS = [
 
 export function Table2() {
   return (
-    <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
         <div>
           <Typography variant="h5" color="blue-gray">
