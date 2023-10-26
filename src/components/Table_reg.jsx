@@ -19,6 +19,8 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { IconEye } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 // const TABS = [
 //   {
@@ -213,9 +215,11 @@ export function Table2() {
                         <div className="grid grid-cols-2 gap-2">
                           <div>
                             <Tooltip content="Aplicant Detail's">
-                              <IconButton variant="text">
-                                <PencilIcon className="h-4 w-4" />
-                              </IconButton>
+                              <Link to={"/detailReg"}>
+                                <IconButton variant="text">
+                                  <IconEye className="h-4 w-4" />
+                                </IconButton>
+                              </Link>
                             </Tooltip>
                           </div>
                         </div>

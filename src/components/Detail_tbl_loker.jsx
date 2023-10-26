@@ -19,6 +19,8 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { IconEye } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 // const TABS = [
 //   {
@@ -66,17 +68,16 @@ export function Table3() {
   return (
     <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
-            <div className="mb-8 flex items-center justify-between gap-8">
-              <div>
-                <Typography variant="h5" color="blue-gray">
-                  Registrant list
-                </Typography>
-                <Typography color="gray" className="mt-1 font-normal">
-                  See information about registrant{" "}
-                  <b>*Nama loker yang di klik*</b>
-                </Typography>
-              </div>
-            </div>
+        <div className="mb-8 flex items-center justify-between gap-8">
+          <div>
+            <Typography variant="h5" color="blue-gray">
+              Registrant list
+            </Typography>
+            <Typography color="gray" className="mt-1 font-normal">
+              See information about registrant <b>*Nama loker yang di klik*</b>
+            </Typography>
+          </div>
+        </div>
         <Card className="h-full w-full">
           <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -198,11 +199,13 @@ export function Table3() {
                       <td className={classes}>
                         <div className="grid grid-cols-2 gap-2">
                           <div>
-                            <Tooltip content="Aplicant Detail's">
-                              <IconButton variant="text">
-                                <PencilIcon className="h-4 w-4" />
-                              </IconButton>
-                            </Tooltip>
+                            <Link to={"/detailReg"}>
+                              <Tooltip content="Aplicant Detail's">
+                                <IconButton variant="text">
+                                  <IconEye className="h-4 w-4" />
+                                </IconButton>
+                              </Tooltip>
+                            </Link>
                           </div>
                         </div>
                       </td>

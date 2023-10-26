@@ -19,6 +19,8 @@ import {
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import { IconEye, IconList, IconTrash } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 // const TABS = [
 //   {
@@ -219,7 +221,7 @@ const TABLE_ROWS = [
 
 export function Table1() {
   return (
-    <div className="fixed" style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
         <div>
           <Typography variant="h5" color="blue-gray">
@@ -234,9 +236,11 @@ export function Table1() {
             <div className="mb-8 flex items-center justify-between gap-8"></div>
             <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
               <div className="flex shrink-0 flex-col gap-2 sm:flex-row w-full md:w-max">
-                <Button className="flex items-center gap-3" size="sm">
-                  <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add job
-                </Button>
+                <Link to={"/addJob"}>
+                  <Button className="flex items-center gap-3" size="sm">
+                    <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add job
+                  </Button>
+                </Link>
               </div>
               <div className="w-full md:w-72">
                 <Input
@@ -392,23 +396,27 @@ export function Table1() {
                         <td className={classes}>
                           <div className="grid grid-cols-2 gap-2">
                             <div>
-                              <Tooltip content="Job Vacancy Detail's">
-                                <IconButton variant="text">
-                                  <PencilIcon className="h-4 w-4" />
-                                </IconButton>
-                              </Tooltip>
+                              <Link to={"/detailJob"}>
+                                <Tooltip content="Job Vacancy Detail's">
+                                  <IconButton variant="text">
+                                    <IconEye className="h-4 w-4" />
+                                  </IconButton>
+                                </Tooltip>
+                              </Link>
                             </div>
                             <div>
-                              <Tooltip content="Registrant List">
-                                <IconButton variant="text">
-                                  <PencilIcon className="h-4 w-4" />
-                                </IconButton>
-                              </Tooltip>
+                              <Link to={"/detailRegList"}>
+                                <Tooltip content="Registrant List">
+                                  <IconButton variant="text">
+                                    <IconList className="h-4 w-4" />
+                                  </IconButton>
+                                </Tooltip>
+                              </Link>
                             </div>
                             <div>
                               <Tooltip content="Delete">
                                 <IconButton variant="text">
-                                  <PencilIcon className="h-4 w-4" />
+                                  <IconTrash className="h-4 w-4" />
                                 </IconButton>
                               </Tooltip>
                             </div>
