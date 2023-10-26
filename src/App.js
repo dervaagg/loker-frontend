@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Form1 } from "./components/Add_job";
+import { Dashboard } from "./components/Dashboard";
+import { Form2 } from "./components/Detail_job";
+import { Form4 } from "./components/Detail_reg";
+import { Table3 } from "./components/Detail_tbl_loker";
+import { Sidebar } from "./components/Sidebar";
+import { Table1 } from "./components/Table_job";
+import { Table2 } from "./components/Table_reg";
+import { Form3 } from "./components/Update_job";
+import { Form5 } from "./components/Update_reg";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Sidebar/>
+      {/* <Dashboard/> */}
+      <Table1/>
+      {/* <Form1/> */}
+      {/* <Form2/> */}
+      {/* <Form3/> */}
+      {/* <Table3/> */}
+      {/* <Form4/> */}
+      {/* <Form5/> */}
+      {/* <Table2/> */}
     </div>
   );
 }
