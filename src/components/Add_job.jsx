@@ -30,7 +30,7 @@ export function Form1() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFromData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
 
