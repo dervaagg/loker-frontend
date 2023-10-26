@@ -20,6 +20,7 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const sidebarStyle = {
   position: "fixed",
@@ -38,59 +39,61 @@ export function Sidebar() {
   };
 
   return (
-    <div className="">
-      <Card
-        style={sidebarStyle}
-        className="p-4 shadow-xl shadow-blue-gray-900/25 rounded-none z-10"
-      >
-        <div className="mb-2 p-4">
-          <Typography variant="h5" color="blue-gray" className="text-center">
-            BPYDD
-          </Typography>
-        </div>
-        <List>
-          <Accordion>
-            <ListItem className="p-0" selected={open === 1}>
-              <AccordionHeader
-                onClick={() => handleOpen(1)}
-                className="border-b-0 p-3"
-              >
-                <ListItemPrefix>
-                  <PresentationChartBarIcon className="h-5 w-5" />
-                </ListItemPrefix>
-                <Typography color="blue-gray" className="mr-auto font-normal">
-                  Dashboard
-                </Typography>
-              </AccordionHeader>
+    <Card
+      style={sidebarStyle}
+      className="p-4 shadow-xl shadow-blue-gray-900/25 rounded-none z-10"
+    >
+      <div className="mb-2 p-4">
+        <Typography variant="h5" color="blue-gray" className="text-center">
+          BPYDD
+        </Typography>
+      </div>
+      <List className="flex flex-col flex-1 justify-between">
+        <div>
+          <Link to="/">
+            <Accordion>
+              <ListItem className="p-0" selected={open === 1}>
+                <AccordionHeader
+                  onClick={() => handleOpen(1)}
+                  className="border-b-0 p-3"
+                >
+                  <ListItemPrefix>
+                    <PresentationChartBarIcon className="h-5 w-5" />
+                  </ListItemPrefix>
+                  <Typography color="blue-gray" className="mr-auto font-normal">
+                    Dashboard
+                  </Typography>
+                </AccordionHeader>
+              </ListItem>
+            </Accordion>
+          </Link>
+
+          <Link to="/job">
+            <ListItem>
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Job Vacancy
             </ListItem>
-          </Accordion>
+          </Link>
 
-          <ListItem>
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Job Vacancy
-          </ListItem>
+          <Link to="/registrant">
+            <ListItem>
+              <ListItemPrefix>
+                <UserCircleIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Registrant
+            </ListItem>
+          </Link>
+        </div>
 
-          <ListItem>
-            <ListItemPrefix>
-              <UserCircleIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Registrant
-          </ListItem>
-
-          <hr className="my-2 border-blue-gray-50" />
-
-          <div className="h-80"></div>
-          <div className="h-32"></div>
-          <ListItem>
-            <ListItemPrefix>
-              <PowerIcon className="h-5 w-5 " />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
-        </List>
-      </Card>
-    </div>
+        <ListItem>
+          <ListItemPrefix>
+            <PowerIcon className="h-5 w-5 " />
+          </ListItemPrefix>
+          Log Out
+        </ListItem>
+      </List>
+    </Card>
   );
 }

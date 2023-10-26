@@ -8,6 +8,7 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 
 export function Form4() {
   return (
@@ -66,7 +67,9 @@ export function Form4() {
                     </p>
                   </div>
                   <div className="flex gap-4 mt-6 justify-end">
+                    <Link to={"/updateReg"}>
                     <Button color="amber">Update</Button>
+                    </Link>
                     <Button color="red">Delete</Button>
                   </div>
                 </form>
