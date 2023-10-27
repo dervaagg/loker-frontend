@@ -8,8 +8,67 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import async from "q";
+// import axios from "axios";
 
 export default function Form3() {
+  const [formData, setFormData] = useState({
+    idperusahaan: '',
+    nama: '',
+    tipe: '',
+    deskripsi: '',
+    usia_min: null,
+    usia_max: null,
+    gaji_min: null,
+    gaji_max: null,
+    nama_cp: '',
+    no_tlp_cp: '',
+    tgl_update: null,
+    tgl_aktif: null,
+    tgl_tutup: null,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      idperusahaan: formData.idperusahaan,
+      nama: formData.nama,
+      tipe: formData.tipe,
+      deskripsi: formData.deskripsi,
+      usia_min: formData.usia_min,
+      usia_max: formData.usia_max,
+      gaji_min: formData.gaji_min,
+      gaji_max: formData.gaji_max,
+      nama_cp: formData.nama_cp,
+      no_tlp_cp: formData.no_tlp_cp,
+      tgl_update: formData.tgl_update,
+      tgl_aktif: formData.tgl_aktif,
+      tgl_tutup: formData.tgl_tutup,
+    }
+
+    console.log('Submitted data:', data);
+
+    // try {
+    //   const response = await axios.post("http://localhost:9000/api/petugas/loker", formData);
+
+    //   if (response.data.errors) {
+    //     console.error("Gagal Mengupdate Pekerjaan:", response.data.errors);
+    //   } else {
+    //     console.log("Pekerjaan Berhasil Terupdate:", response.data);
+
+    //   }
+    // } catch (error) {
+    //   console.error("Gagal Mengupdate Pekerjaan:", error);
+    // }
+  };
+
   return (
     <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
