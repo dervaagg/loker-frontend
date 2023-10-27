@@ -9,6 +9,30 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
+
+export default function DetailJob() {
+  const history = useHistory();
+
+  const handleDelete = () => {
+    // Di sini Anda dapat menambahkan logika untuk menghapus pekerjaan.
+    // Anda dapat menggunakan API atau fungsi penghapusan yang sesuai.
+    // Setelah penghapusan berhasil, Anda bisa mengarahkan pengguna kembali ke halaman yang sesuai.
+    // Contoh:
+    
+    // Menggunakan API atau fungsi penghapusan yang sesuai
+    axios.delete("http://localhost:9000/api/petugas/loker")
+      .then(response => {
+        console.log("Data berhasil dihapus", response);
+        // Redirect pengguna ke halaman yang sesuai (misalnya, daftar pekerjaan)
+        history.push("/job");
+      })
+      .catch(error => {
+        console.error("Gagal menghapus data", error);
+      });
+  }
+}
 
 export default function Form2() {
   return (
@@ -100,7 +124,7 @@ export default function Form2() {
                     <Link to="/updateJob">
                       <Button color="amber">Update</Button>
                     </Link>
-                    <Button color="red">Delete</Button>
+                    <Button color="amber" onClick={handleDelete}>Delete</Button>
                   </div>
                 </form>
               </CardBody>
@@ -110,4 +134,4 @@ export default function Form2() {
       </div>
     </div>
   );
-}
+}}

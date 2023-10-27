@@ -81,6 +81,7 @@ export default function Form3() {
                       Gaji
                     </Typography>
                     <Input
+                      type="number"
                       size="lg"
                       placeholder="Masukan nominal gaji"
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -111,6 +112,7 @@ export default function Form3() {
                       Tanggal Mulai
                     </Typography>
                     <Input
+                      type="date"
                       size="lg"
                       placeholder=""
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -126,6 +128,7 @@ export default function Form3() {
                       Tanggal Selesai
                     </Typography>
                     <Input
+                      type="date-"
                       size="lg"
                       placeholder=""
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
