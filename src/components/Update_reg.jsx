@@ -8,10 +8,55 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import async from "q";
+// import axios from "axios";
 
 export function Form5() {
+  const [formData, setFormData] = useState({
+    id_loker: "",
+    nama_pencaker: "",
+    domisili: "",
+    status_pencaker: "",
+    berkas: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      id_loker: formData.id_loker,
+      nama_pencaker: formData.nama_pencaker,
+      domisili: formData.domisili,
+      status_pencaker: formData.status_pencaker,
+      berkas: formData.berkas,
+    };
+
+    console.log("Submitted data:", data);
+
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:9000/api/petugas/loker",
+    //     formData
+    //   );
+
+    //   if (response.data.errors) {
+    //     console.error("Gagal Update:", response.data.errors);
+    //   } else {
+    //     console.log("Berhasil Update:", response.data);
+    //   }
+    // } catch (error) {
+    //   console.error("Gagal Update:", error);
+    // }
+  };
+
   return (
-    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Update Registrant</p>
