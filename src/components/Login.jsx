@@ -1,7 +1,29 @@
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export function Login() {
+
+  const [formData, setFormData] = useState({
+    email:'',
+    password:'',
+  });
+
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData({...formData, [name]: value})
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    const data = {
+      email: formData.email,
+      password: formData.password
+    }
+
+    console.log(data);
+  }
+
   return (
     <div className="flex items-center justify-center h-screen">
       <Card className="px-5 py-5" color="" shadow={true}>
@@ -15,6 +37,9 @@ export function Login() {
                 Your Email
               </Typography>
               <Input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 size="lg"
                 placeholder="Enter your email"
                 className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -26,6 +51,9 @@ export function Login() {
                 Password
               </Typography>
               <Input
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 type="password"
                 size="lg"
                 placeholder="Enter your password"
@@ -36,7 +64,7 @@ export function Login() {
               />
             </div>
             <Link to={"/Home"}>
-              <Button className="mt-6" fullWidth>
+              <Button onClick={handleSubmit} className="mt-6" fullWidth>
                 Log In
               </Button>
             </Link>
