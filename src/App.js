@@ -19,12 +19,15 @@ import UpdateJob from "./pages/update_Job";
 import DetailRegList from "./pages/detail_reg_List";
 import DetailReg from "./pages/detail_Reg";
 import UpdateReg from "./pages/update_Reg";
+import LoginPage from "./pages/Login";
 
 function App() {
   return (
     <Routes>
+      <Route index element={<LoginPage/>}/>
       <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
+        {/* <Route index element={<Home />} /> */}
+        <Route path="/Home" element={<Home />} />
         <Route path="/job" element={<Job />} />
         <Route path="/registrant" element={<Registrant />} />
         <Route path="/addJob" element={<AddJob />} />

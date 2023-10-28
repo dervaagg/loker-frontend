@@ -35,7 +35,7 @@ export function Form1() {
 
 
   return (
-    <div className="fixed " style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div className=" " style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Add Job Vacancy</p>
@@ -91,6 +91,7 @@ export function Form1() {
                     Gaji
                   </Typography>
                   <Input
+                    type="number"
                     size="lg"
                     placeholder="Masukan nominal gaji"
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -113,23 +114,17 @@ export function Form1() {
                     Tanggal Mulai
                   </Typography>
                   <Input
-                    size="lg"
-                    placeholder=""
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
+                    type="date"
+                    className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    name="endDate"
                   />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Tanggal Selesai
                   </Typography>
                   <Input
-                    size="lg"
-                    placeholder=""
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
+                    type="date"
+                    className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    name="endDate"
                   />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Kuota Penerimaan
