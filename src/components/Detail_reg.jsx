@@ -11,30 +11,48 @@ import {
 import { Link } from "react-router-dom";
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
-export function DetailReg() {
-  const history = useHistory();
+// export function DetailReg() {
+//   const history = useHistory();
 
+//   const handleDelete = () => {
+//     // Di sini Anda dapat menambahkan logika untuk menghapus pendaftar.
+//     // Anda dapat menggunakan API atau fungsi penghapusan yang sesuai.
+//     // Setelah penghapusan berhasil, Anda bisa mengarahkan pengguna kembali ke halaman yang sesuai.
+//     // Contoh:
+
+//     // Menggunakan API atau fungsi penghapusan yang sesuai
+//     axios.delete("http://localhost:9000/api/petugas/loker")
+//       .then(response => {
+//         console.log("Data berhasil dihapus", response);
+//         // Redirect pengguna ke halaman yang sesuai (misalnya, daftar pendaftar)
+//         history.push("/registrant");
+//       })
+//       .catch(error => {
+//         console.error("Gagal menghapus data", error);
+//       });
+//   };
+// }
+
+export default function Form4() {
   const handleDelete = () => {
-    // Di sini Anda dapat menambahkan logika untuk menghapus pendaftar.
+    // Di sini Anda dapat menambahkan logika untuk menghapus pekerjaan.
     // Anda dapat menggunakan API atau fungsi penghapusan yang sesuai.
     // Setelah penghapusan berhasil, Anda bisa mengarahkan pengguna kembali ke halaman yang sesuai.
     // Contoh:
-
+    
     // Menggunakan API atau fungsi penghapusan yang sesuai
     axios.delete("http://localhost:9000/api/petugas/loker")
       .then(response => {
         console.log("Data berhasil dihapus", response);
-        // Redirect pengguna ke halaman yang sesuai (misalnya, daftar pendaftar)
-        history.push("/registrant");
+        // Redirect pengguna ke halaman yang sesuai (misalnya, daftar pekerjaan)
+        // history.push("/job");
       })
       .catch(error => {
         console.error("Gagal menghapus data", error);
       });
-  };
-
-
-export function Form4() {
+  }
   return (
     <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
@@ -104,5 +122,4 @@ export function Form4() {
       </div>
     </div>
   );
-}
 }

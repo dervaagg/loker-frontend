@@ -1,8 +1,10 @@
 import { Card, Input, Button, Typography } from "@material-tailwind/react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function Login() {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email:'',
@@ -21,7 +23,14 @@ export function Login() {
       password: formData.password
     }
 
-    console.log(data);
+    try {
+      const response = await axios.post("http://localhost:9000/api/petugas", data);
+      console.log("Submitted data:", data);
+      navigate("/home");
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -63,11 +72,11 @@ export function Login() {
                 }}
               />
             </div>
-            <Link to={"/Home"}>
+            {/* <Link to={"/Home"}> */}
               <Button onClick={handleSubmit} className="mt-6" fullWidth>
                 Log In
               </Button>
-            </Link>
+            {/* </Link> */}
           </form>
         </div>
       </Card>

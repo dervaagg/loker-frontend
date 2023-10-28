@@ -55,18 +55,18 @@ export function Form1() {
 
     console.log('Submitted data:', data);
 
-    try {
-      const response = await axios.post("http://localhost:9000/api/petugas/loker", formData);
+    // try {
+    //   const response = await axios.post("http://localhost:9000/api/petugas/loker", formData);
 
-      if (response.data.errors) {
-        console.error("Gagal menambahkan pekerjaan:", response.data.errors);
-      } else {
-        console.log("Pekerjaan berhasil ditambahkan:", response.data);
+    //   if (response.data.errors) {
+    //     console.error("Gagal menambahkan pekerjaan:", response.data.errors);
+    //   } else {
+    //     console.log("Pekerjaan berhasil ditambahkan:", response.data);
 
-      }
-    } catch (error) {
-      console.error("Gagal menambahkan pekerjaan:", error);
-    }
+    //   }
+    // } catch (error) {
+    //   console.error("Gagal menambahkan pekerjaan:", error);
+    // }
   };
 
   return (
@@ -83,19 +83,21 @@ export function Form1() {
             >
               <form onSubmit={handleSubmit} className="mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
-                    Kode Lowongan Pekerjaan
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Kode Perusahan
                   </Typography>
                   <Input
                     size="lg"
+                    name="idperusahaan"
+                    value={formData.idperusahaan}
+                    onChange={handleChange}
                     placeholder=""
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
                     label=""
-                    disabled
-                  /> */}
+                  />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Nama Pekerjaan
                   </Typography>
@@ -116,23 +118,40 @@ export function Form1() {
                   </Typography>
                   <Select
                     label="Pilih Jenis Pekerjaan"
+                    name="tipe"
+                    onChange={handleChange}
                     animate={{
                       mount: { y: 0 },
                       unmount: { y: 25 },
                     }}
                   >
-                    <Option>Internship</Option>
+                    <Option value={formData.tipe}>Internship</Option>
                     <Option>Management Trainee</Option>
                     <Option>PKWT</Option>
                     <Option>PKWTT</Option>
                   </Select>
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
-                    Gaji
+                    Gaji Maksimum
                   </Typography>
                   <Input
                     type="number"
                     name="gaji_max"
                     value={formData.gaji_max}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan nominal gaji"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Gaji Minimum
+                  </Typography>
+                  <Input
+                    type="number"
+                    name="gaji_min"
+                    value={formData.gaji_min}
                     onChange={handleChange}
                     size="lg"
                     placeholder="Masukan nominal gaji"
@@ -177,14 +196,12 @@ export function Form1() {
                   <Input
                     type="date"
                     className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
-                    name="endDate"
-
                     name="tgl_tutup"
                     value={formData.tgl_tutup}
                     onChange={handleChange}
                     size="lg"
                     placeholder=""
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    // className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
