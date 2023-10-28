@@ -8,10 +8,8 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { async } from "q";
 import { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 export function Form1() {
   const [formData, setFormData] = useState({
