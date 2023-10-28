@@ -8,7 +8,10 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
+import { async } from "q";
 import { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 export function Form1() {
   const [formData, setFormData] = useState({
@@ -16,26 +19,58 @@ export function Form1() {
     nama: '',
     tipe: '',
     deskripsi: '',
-    usia_min: 'null',
-    usia_max: 'null',
-    gaji_min: 'null',
-    gaji_max: 'null',
+    usia_min: null,
+    usia_max: null,
+    gaji_min: null,
+    gaji_max: null,
     nama_cp: '',
-    no_tlp_cp: 'null',
-    tgl_update: 'null',
-    tgl_aktif: 'null',
-    tgl_tutup: 'null',
-    status: '',
+    no_tlp_cp: '',
+    tgl_update: null,
+    tgl_aktif: null,
+    tgl_tutup: null,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFromData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = {
+      idperusahaan: formData.idperusahaan,
+      nama: formData.nama,
+      tipe: formData.tipe,
+      deskripsi: formData.deskripsi,
+      usia_min: formData.usia_min,
+      usia_max: formData.usia_max,
+      gaji_min: formData.gaji_min,
+      gaji_max: formData.gaji_max,
+      nama_cp: formData.nama_cp,
+      no_tlp_cp: formData.no_tlp_cp,
+      tgl_update: formData.tgl_update,
+      tgl_aktif: formData.tgl_aktif,
+      tgl_tutup: formData.tgl_tutup,
+    }
+
+    console.log('Submitted data:', data);
+
+    try {
+      const response = await axios.post("http://localhost:9000/api/petugas/loker", formData);
+
+      if (response.data.errors) {
+        console.error("Gagal menambahkan pekerjaan:", response.data.errors);
+      } else {
+        console.log("Pekerjaan berhasil ditambahkan:", response.data);
+
+      }
+    } catch (error) {
+      console.error("Gagal menambahkan pekerjaan:", error);
+    }
+  };
 
   return (
-    <div className=" " style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div className="" style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Add Job Vacancy</p>
@@ -46,9 +81,9 @@ export function Form1() {
             <CardBody
               className="mx-auto"
             >
-              <form className="mb-2 w-80 max-w-screen-lg sm:w-96">
+              <form onSubmit={handleSubmit} className="mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Kode Lowongan Pekerjaan
                   </Typography>
                   <Input
@@ -60,11 +95,15 @@ export function Form1() {
                     }}
                     label=""
                     disabled
-                  />
+                  /> */}
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Nama Pekerjaan
                   </Typography>
                   <Input
+                    type="text"
+                    name="nama"
+                    value={formData.nama}
+                    onChange={handleChange}
                     size="lg"
                     placeholder="Masukan nama lowongan pekerjaan"
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -92,6 +131,9 @@ export function Form1() {
                   </Typography>
                   <Input
                     type="number"
+                    name="gaji_max"
+                    value={formData.gaji_max}
+                    onChange={handleChange}
                     size="lg"
                     placeholder="Masukan nominal gaji"
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -103,6 +145,10 @@ export function Form1() {
                     Deskripsi Pekerjaan
                   </Typography>
                   <Textarea
+                    type="text"
+                    name="deskripsi"
+                    value={formData.deskripsi}
+                    onChange={handleChange}
                     size="lg"
                     placeholder="Masukan deskripsi lowongan pekerjaan"
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
@@ -115,8 +161,15 @@ export function Form1() {
                   </Typography>
                   <Input
                     type="date"
-                    className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
-                    name="endDate"
+                    name="tgl_aktif"
+                    value={formData.tgl_aktif}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder=""
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
                   />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Tanggal Selesai
@@ -125,8 +178,18 @@ export function Form1() {
                     type="date"
                     className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
                     name="endDate"
+
+                    name="tgl_tutup"
+                    value={formData.tgl_tutup}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder=""
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
                   />
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Kuota Penerimaan
                   </Typography>
                   <Input
@@ -136,7 +199,7 @@ export function Form1() {
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
-                  />
+                  /> */}
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Status Lowongan Pekerjaan
                   </Typography>
@@ -146,7 +209,7 @@ export function Form1() {
                     <Option></Option>
                   </Select>
                 </div>
-                <Button className="mt-6" fullWidth>
+                <Button onClick={handleSubmit} className="mt-6" fullWidth>
                   Add Job Vacancy
                 </Button>
               </form>
