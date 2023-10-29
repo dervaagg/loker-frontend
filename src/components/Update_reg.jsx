@@ -8,18 +8,29 @@ import {
   Option,
   Textarea,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import async from "q";
-// import axios from "axios";
+import axios from "axios";
+import dayjs from "dayjs";
+import id from "dayjs/locale/id";
 
-export function Form5() {
+dayjs.locale(id)
+
+export function Form5({idloker, no_ktp}) {
+  const [details, setDetails] = useState({});
+
+  const getDetails = async () => {
+    try {
+      const res = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}`);
+      console.log(res.data);
+      setDetails(res.data);
+    } catch (error) {
+      console.error("Gagal mengambil data", error);
+    }
+  };
   const [formData, setFormData] = useState({
-    id_loker: "",
-    nama_pencaker: "",
-    domisili: "",
-    status_pencaker: "",
-    berkas: "",
+    status: "",
   });
 
   const handleChange = (e) => {
@@ -30,11 +41,7 @@ export function Form5() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
-      id_loker: formData.id_loker,
-      nama_pencaker: formData.nama_pencaker,
-      domisili: formData.domisili,
-      status_pencaker: formData.status_pencaker,
-      berkas: formData.berkas,
+      status: formData.status,
     };
 
     console.log("Submitted data:", data);
@@ -55,6 +62,10 @@ export function Form5() {
     // }
   };
 
+  useEffect(() => {
+    getDetails();
+  }, [])
+
   return (
     <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
@@ -65,7 +76,7 @@ export function Form5() {
           <div className="md:pl-20">
             <Card className="w-full">
               <CardBody className="mx-auto">
-                <form className="mb-2 w-80 max-w-screen-lg sm:w-96">
+                <form onSubmit={handleSubmit} className="mb-2 w-80 max-w-screen-lg sm:w-96">
                   <div className="mb-1 flex flex-col gap-6">
                     <Typography
                       variant="h6"
@@ -76,7 +87,24 @@ export function Form5() {
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder=""
+                      placeholder={details?.[0]?.idloker}
+                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      label=""
+                      disabled
+                    />
+                    <Typography
+                      variant="h6"
+                      color="blue-gray"
+                      className="-mb-3"
+                    >
+                      Nomor KTP
+                    </Typography>
+                    <Input
+                      size="lg"
+                      placeholder={details?.[0]?.no_ktp}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -93,7 +121,7 @@ export function Form5() {
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder=""
+                      placeholder={details?.[0]?.nama_pencaker}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -106,11 +134,62 @@ export function Form5() {
                       color="blue-gray"
                       className="-mb-3"
                     >
-                      Domisili
+                      Jenis Kelamin
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder=""
+                      placeholder={details?.[0]?.jenis_kelamin}
+                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      label=""
+                      disabled
+                    />
+                    <Typography
+                      variant="h6"
+                      color="blue-gray"
+                      className="-mb-3"
+                    >
+                      Tempat dan Tanggal Lahir
+                    </Typography>
+                    <Input
+                      size="lg"
+                      placeholder={details?.[0]?.tempat_lahir + ", " + dayjs(details?.[0]?.tanggal_lahir).format("DD MMMM YYYY")}
+                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      label=""
+                      disabled
+                    />
+                    <Typography
+                      variant="h6"
+                      color="blue-gray"
+                      className="-mb-3"
+                    >
+                      Alamat
+                    </Typography>
+                    <Input
+                      size="lg"
+                      placeholder={details?.[0]?.alamat}
+                      className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                      labelProps={{
+                        className: "before:content-none after:content-none",
+                      }}
+                      label=""
+                      disabled
+                    />
+                    <Typography
+                      variant="h6"
+                      color="blue-gray"
+                      className="-mb-3"
+                    >
+                      Kota
+                    </Typography>
+                    <Input
+                      size="lg"
+                      placeholder={details?.[0]?.kota}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -131,13 +210,19 @@ export function Form5() {
                         mount: { y: 0 },
                         unmount: { y: 25 },
                       }}
+                      // defaultValue={parseInt(details?.[0]?.idtahapan)}
+                      value={parseInt(formData.status)}
+                      onChange={(value) => {
+                        handleChange({ target: { name: "status", value: value } });
+                      }}
+
                     >
-                      <Option>Diterima</Option>
-                      <Option>Ditolak</Option>
-                      <Option>Proses Administrasi</Option>
-                      <Option>Proses Wawancara</Option>
+                      {/* <Option>Diterima</Option>
+                      <Option>Ditolak</Option> */}
+                      <Option value={1}>Proses Administrasi</Option>
+                      <Option value={2}>Proses Wawancara</Option>
                     </Select>
-                    <Typography
+                    {/* <Typography
                       variant="h6"
                       color="blue-gray"
                       className="-mb-3"
@@ -153,14 +238,14 @@ export function Form5() {
                       }}
                       label=""
                       disabled
-                    />
+                    /> */}
                     <a href="#" className="text-blue-600">
                       <p className="text-sm font-light underline">
                         Cek berkas disini
                       </p>
                     </a>
                   </div>
-                  <Button color="amber" className="mt-6" fullWidth>
+                  <Button onClick={handleSubmit} color="amber" className="mt-6" fullWidth>
                     Update Status
                   </Button>
                 </form>

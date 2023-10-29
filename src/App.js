@@ -29,13 +29,14 @@ function App() {
         {/* <Route index element={<Home />} /> */}
         <Route path="/home" element={<Home />} />
         <Route path="/job" element={<Job />} />
+        <Route path="/job/:jobId" element={<DetailJob />} />
         <Route path="/registrant" element={<Registrant />} />
         <Route path="/addJob" element={<AddJob />} />
-        <Route path="/detailJob" element={<DetailJob />} />
-        <Route path="/updateJob" element={<UpdateJob />} />
-        <Route path="/detailRegList" element={<DetailRegList />} />
-        <Route path="/detailReg" element={<DetailReg />} />
-        <Route path="/updateReg" element={<UpdateReg />} />
+        {/* <Route path="/detailJob" element={<DetailJob />} /> */}
+        <Route path="/job/:jobId/edit" element={<UpdateJob />} />
+        <Route path="/job/:jobId/apply" element={<DetailRegList />} />
+        <Route path="/job/:jobId/apply/:regId" element={<DetailReg />} />
+        <Route path="/job/:jobId/apply/:regId/edit" element={<UpdateReg />} />
       </Route>
     </Routes>
   );

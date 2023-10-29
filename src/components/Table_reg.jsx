@@ -21,7 +21,8 @@ import {
 } from "@material-tailwind/react";
 import { IconEye } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 // const TABS = [
 //   {
 //     label: "All",
@@ -81,6 +82,18 @@ const TABLE_ROWS = [
 ];
 
 export function Table2() {
+  const [pencaker, setPencaker] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:9000/api/petugas/pencaker')
+    .then(res => {
+      setPencaker(res.data)
+    })
+    .catch(err => 
+      console.log(err)
+    )
+  })
+
   return (
     <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
@@ -132,14 +145,14 @@ export function Table2() {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map(({ kode, name, dom, stat, berkas }, index) => {
+                {pencaker.map(({ nama_pekerjaan ,nama_pencaker, kota, tahapan, file_ktp }, index) => {
                   const isLast = index === TABLE_ROWS.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={kode}>
+                    <tr key={nama_pekerjaan}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
                           <div className="flex flex-col">
@@ -148,7 +161,7 @@ export function Table2() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {kode}
+                              {nama_pekerjaan}
                             </Typography>
                           </div>
                         </div>
@@ -160,7 +173,7 @@ export function Table2() {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {name}
+                            {nama_pencaker}
                           </Typography>
                         </div>
                       </td>
@@ -172,7 +185,7 @@ export function Table2() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {dom}
+                              {kota}
                             </Typography>
                           </div>
                         </div>
@@ -193,8 +206,8 @@ export function Table2() {
                           <Chip
                             variant="ghost"
                             size="sm"
-                            value={stat ? "diterima" : "ditolak"}
-                            color={stat ? "green" : "red"}
+                            value={tahapan ? "Seleksi Administrasi" : "Ditolak"}
+                            color={tahapan ? "yellow" : "red"}
                           />
                         </div>
                       </td>
@@ -206,7 +219,7 @@ export function Table2() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {berkas}
+                              {file_ktp}
                             </Typography>
                           </div>
                         </div>

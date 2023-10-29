@@ -6,7 +6,7 @@ import 'chart.js/auto'
 import { PieChart, Pie } from 'recharts';
 
 export function Dashboard() {
-  const [donutData, setDonutData] = useState({})
+  // const [donutData, setDonutData] = useState({})
   // const [pencakerGender, setPencakerGender] = useState([])
   const [result, setResult] = useState([])
 
@@ -22,31 +22,31 @@ export function Dashboard() {
 
   // console.log(data)
 
-  const Chart = () => {
+  // const Chart = () => {
 
-    res
-    .then(
-      result => {
-        // console.log(result.data)
-        const dataObj = result.data
-        // console.log(dataObj)
-        const filter = dataObj.filter(data => data.kolom === 'Total Laki-laki' || data.kolom === 'Total Perempuan')
-        console.log(filter)
+  //   res
+  //   .then(
+  //     result => {
+  //       // console.log(result.data)
+  //       const dataObj = result.data
+  //       // console.log(dataObj)
+  //       const filter = dataObj.filter(data => data.kolom === 'Total Laki-laki' || data.kolom === 'Total Perempuan')
+  //       console.log(filter)
         
-        setDonutData(filter)
-      })
-    .catch(err => {
-      console.log(err)
-    }) 
-  }
+  //       setDonutData(filter)
+  //     })
+  //   .catch(err => {
+  //     console.log(err)
+  //   }) 
+  // }
 
   useEffect(() => {
     res
     .then(result => 
       setResult(result.data)
       )
-    Chart()
-  })
+    // Chart()
+  }, [])
   
   // console.log(donutData)
 
@@ -82,9 +82,9 @@ export function Dashboard() {
               Chart Diterima vs Gagal
             </Typography>
             {/* <Typography className="text-center">Dougnut Chart</Typography> */}
-            <PieChart width={400} height={400}>
+            {/* <PieChart width={400} height={400}>
               <Pie data={donutData} dataKey="total" nameKey="kolom" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" />
-            </PieChart>
+            </PieChart> */}
           </CardBody>
         </Card>
       </div>

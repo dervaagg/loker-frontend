@@ -21,6 +21,8 @@ import {
 } from "@material-tailwind/react";
 import { IconEye } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 // const TABS = [
 //   {
@@ -41,8 +43,8 @@ const TABLE_HEAD = [
   "Nama",
   // "NIK",
   "Domisili",
-  "Status",
-  "Berkas",
+  "Tahapan",
+  // "Berkas",
   "Action",
 ];
 
@@ -64,7 +66,23 @@ const TABLE_ROWS = [
   },
 ];
 
-export function Table3() {
+export function Table3({idloker, no_ktp}) {
+  const [reg, setReg] = useState([]);
+  
+  const regList = async () => {
+    try {
+      const response = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply`);
+      setReg(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    regList();
+  }, [])
+
   return (
     <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
@@ -74,7 +92,7 @@ export function Table3() {
               Registrant list
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
-              See information about registrant <b>*Nama loker yang di klik*</b>
+              See information about registrant <b>{reg.map(data => data.nama_pekerjaan)}</b>
             </Typography>
           </div>
         </div>
@@ -117,14 +135,14 @@ export function Table3() {
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map(({ name, dom, stat, berkas }, index) => {
+                {reg.map(({ nama_pencaker, kota, tahapan, no_ktp }, index) => {
                   const isLast = index === TABLE_ROWS.length - 1;
                   const classes = isLast
                     ? "p-4"
                     : "p-4 border-b border-blue-gray-50";
 
                   return (
-                    <tr key={name}>
+                    <tr key={nama_pencaker}>
                       <td className={classes}>
                         <div className="flex items-center gap-3">
                           <div className="flex flex-col">
@@ -133,7 +151,7 @@ export function Table3() {
                               color="blue-gray"
                               className="font-normal"
                             >
-                              {name}
+                              {nama_pencaker}
                             </Typography>
                           </div>
                         </div>
@@ -145,7 +163,7 @@ export function Table3() {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {dom}
+                            {kota}
                           </Typography>
                         </div>
                       </td>
@@ -178,12 +196,12 @@ export function Table3() {
                           <Chip
                             variant="ghost"
                             size="sm"
-                            value={stat ? "diterima" : "ditolak"}
-                            color={stat ? "green" : "red"}
+                            value={tahapan ? "Seleksi Administrasi" : "Seleksi Wawancara"}
+                            color={tahapan ? "blue-gray" : "orange"}
                           />
                         </div>
                       </td>
-                      <td className={classes}>
+                      {/* <td className={classes}>
                         <div className="flex items-center gap-3">
                           <div className="flex flex-col">
                             <Typography
@@ -195,11 +213,11 @@ export function Table3() {
                             </Typography>
                           </div>
                         </div>
-                      </td>
+                      </td> */}
                       <td className={classes}>
                         <div className="grid grid-cols-2 gap-2">
                           <div>
-                            <Link to={"/detailReg"}>
+                            <Link to={`/job/${idloker}/apply/${no_ktp}`}>
                               <Tooltip content="Aplicant Detail's">
                                 <IconButton variant="text">
                                   <IconEye className="h-4 w-4" />
