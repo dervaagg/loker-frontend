@@ -11,7 +11,11 @@ import {
 import { useState } from "react";
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+
 export function Form1() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     idperusahaan: '',
     nama: '',
@@ -22,7 +26,8 @@ export function Form1() {
     gaji_min: null,
     gaji_max: null,
     nama_cp: '',
-    no_tlp_cp: '',
+    no_telp_cp: '',
+    email_cp: '',
     tgl_update: null,
     tgl_aktif: null,
     tgl_tutup: null,
@@ -45,7 +50,8 @@ export function Form1() {
       gaji_min: formData.gaji_min,
       gaji_max: formData.gaji_max,
       nama_cp: formData.nama_cp,
-      no_tlp_cp: formData.no_tlp_cp,
+      no_telp_cp: formData.no_telp_cp,
+      email_cp: formData.email_cp,
       tgl_update: formData.tgl_update,
       tgl_aktif: formData.tgl_aktif,
       tgl_tutup: formData.tgl_tutup,
@@ -54,14 +60,10 @@ export function Form1() {
     console.log('Submitted data:', data);
 
     try {
-      const response = await axios.post("http://localhost:9000/api/petugas/loker", formData);
+      const response = await axios.post("http://localhost:9000/api/petugas/loker", data);
 
-      if (response.data.errors) {
-        console.error("Gagal menambahkan pekerjaan:", response.data.errors);
-      } else {
-        console.log("Pekerjaan berhasil ditambahkan:", response.data);
-
-      }
+      console.log("Submitted data:", data);
+      navigate('/job')
     } catch (error) {
       console.error("Gagal menambahkan pekerjaan:", error);
     }
@@ -81,19 +83,21 @@ export function Form1() {
             >
               <form onSubmit={handleSubmit} className="mb-2 w-80 max-w-screen-lg sm:w-96">
                 <div className="mb-1 flex flex-col gap-6">
-                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
-                    Kode Lowongan Pekerjaan
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Kode Perusahan
                   </Typography>
                   <Input
                     size="lg"
-                    placeholder=""
+                    name="idperusahaan"
+                    value={formData.idperusahaan}
+                    onChange={handleChange}
+                    placeholder="Masukkan kode perusahaan"
                     className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
                     label=""
-                    disabled
-                  /> */}
+                  />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Nama Pekerjaan
                   </Typography>
@@ -114,31 +118,21 @@ export function Form1() {
                   </Typography>
                   <Select
                     label="Pilih Jenis Pekerjaan"
+                    name="tipe"
+                    value={formData.tipe}
+                    onChange={value => {
+                      handleChange({target: {name: 'tipe', value: value}})
+                    }}
                     animate={{
                       mount: { y: 0 },
                       unmount: { y: 25 },
                     }}
                   >
-                    <Option>Internship</Option>
-                    <Option>Management Trainee</Option>
-                    <Option>PKWT</Option>
-                    <Option>PKWTT</Option>
+                    <Option value="Internship">Internship</Option>
+                    <Option value="Management Trainee">Management Trainee</Option>
+                    <Option value="PKWT">PKWT</Option>
+                    <Option value="PKWTT">PKWTT</Option>
                   </Select>
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
-                    Gaji
-                  </Typography>
-                  <Input
-                    type="number"
-                    name="gaji_max"
-                    value={formData.gaji_max}
-                    onChange={handleChange}
-                    size="lg"
-                    placeholder="Masukan nominal gaji"
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-                    labelProps={{
-                      className: "before:content-none after:content-none",
-                    }}
-                  />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Deskripsi Pekerjaan
                   </Typography>
@@ -155,6 +149,111 @@ export function Form1() {
                     }}
                   />
                   <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Gaji Maksimum
+                  </Typography>
+                  <Input
+                    type="number"
+                    name="gaji_max"
+                    value={formData.gaji_max}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan nominal gaji maksimum"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Gaji Minimum
+                  </Typography>
+                  <Input
+                    type="number"
+                    name="gaji_min"
+                    value={formData.gaji_min}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan nominal gaji minimum"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Usia Minimum
+                  </Typography>
+                  <Input
+                    type="number"
+                    name="usia_min"
+                    value={formData.usia_min}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan usia minimum"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Usia Maksimum
+                  </Typography>
+                  <Input
+                    type="number"
+                    name="usia_max"
+                    value={formData.usia_max}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan usia maksimum"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Nama Contact Person
+                  </Typography>
+                  <Input
+                    type="text"
+                    name="nama_cp"
+                    value={formData.nama_cp}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan nama contact person"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Email Contact Person
+                  </Typography>
+                  <Input
+                    type="text"
+                    name="email_cp"
+                    value={formData.email_cp}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan email contact person"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                    Nomor Telepon Contact Person
+                  </Typography>
+                  <Input
+                    type="text"
+                    name="no_telp_cp"
+                    value={formData.no_telp_cp}
+                    onChange={handleChange}
+                    size="lg"
+                    placeholder="Masukan nomor telepon contact person"
+                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    labelProps={{
+                      className: "before:content-none after:content-none",
+                    }}
+                  />
+                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Tanggal Mulai
                   </Typography>
                   <Input
@@ -174,16 +273,17 @@ export function Form1() {
                   </Typography>
                   <Input
                     type="date"
+                    className="w-full p-2 !border-t-blue-gray-200 focus:!border-t-gray-900"
                     name="tgl_tutup"
                     value={formData.tgl_tutup}
                     onChange={handleChange}
                     size="lg"
                     placeholder=""
-                    className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
+                    // className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                     labelProps={{
                       className: "before:content-none after:content-none",
                     }}
-                  />
+                  /> */}
                   {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Kuota Penerimaan
                   </Typography>
@@ -195,14 +295,14 @@ export function Form1() {
                       className: "before:content-none after:content-none",
                     }}
                   /> */}
-                  <Typography variant="h6" color="blue-gray" className="-mb-3">
+                  {/* <Typography variant="h6" color="blue-gray" className="-mb-3">
                     Status Lowongan Pekerjaan
                   </Typography>
                   <Select label="Aktif" disabled>
                     <Option></Option>
                     <Option></Option>
                     <Option></Option>
-                  </Select>
+                  </Select> */}
                 </div>
                 <Button onClick={handleSubmit} className="mt-6" fullWidth>
                   Add Job Vacancy

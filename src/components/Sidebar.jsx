@@ -50,7 +50,7 @@ export function Sidebar() {
       </div>
       <List className="flex flex-col flex-1 justify-between">
         <div>
-          <Link to="/">
+          <Link to="/home">
             <Accordion>
               <ListItem className="p-0" selected={open === 1}>
                 <AccordionHeader

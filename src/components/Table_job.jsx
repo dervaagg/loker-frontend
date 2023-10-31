@@ -1,26 +1,10 @@
-import {
-  MagnifyingGlassIcon,
-  ChevronUpDownIcon,
-} from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Avatar,
-  IconButton,
-  Tooltip,
-} from "@material-tailwind/react";
+import { Card, CardHeader, Input, Typography, Button, CardBody, Chip, CardFooter, Tabs, TabsHeader, Tab, Avatar, IconButton, Tooltip } from "@material-tailwind/react";
 import { IconEye, IconList, IconTrash } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 // const TABS = [
 //   {
@@ -38,14 +22,14 @@ import { Link } from "react-router-dom";
 // ];
 
 const TABLE_HEAD = [
-  "Kode Lowongan Pekerjaan",
+  "Kode Perusahaan",
   "Pekerjaan",
   "Jenis Pekerjaan",
   //   "Gaji",
   "Deskripsi Pekerjaan",
   //   "Tanggal Mulai",
   //   "Tanggal Berakhir",
-  "Kuota Penerimaan",
+  // "Kuota Penerimaan",
   "Status",
   "Action",
 ];
@@ -220,6 +204,28 @@ const TABLE_ROWS = [
 ];
 
 export function Table1() {
+  const [loker, setLoker] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:9000/api/petugas/loker")
+      .then((res) => {
+        // console.log(res.data)
+        setLoker(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const convertStatus = (status) => {
+    if (status === "Aktif") {
+      return <Chip variant="ghost" size="sm" value={"Aktif"} color={"green"} />;
+    } else if (status === "Proses Seleksi") {
+      return <Chip variant="ghost" size="sm" value={"Proses Seleksi"} color={"blue-gray"} />;
+    } else if (status === "Ditutup") {
+      return <Chip variant="ghost" size="sm" value={"Ditutup"} color={"red"} />;
+    }
+  };
+
   return (
     <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 pt-8 pr-10 pb-8">
@@ -243,10 +249,7 @@ export function Table1() {
                 </Link>
               </div>
               <div className="w-full md:w-72">
-                <Input
-                  label="Search"
-                  icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-                />
+                <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
               </div>
             </div>
           </CardHeader>
@@ -255,78 +258,47 @@ export function Table1() {
               <thead>
                 <tr>
                   {TABLE_HEAD.map((head, index) => (
-                    <th
-                      key={head}
-                      className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
-                    >
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
-                      >
-                        {head}{" "}
-                        {index !== TABLE_HEAD.length - 1 && (
-                          <ChevronUpDownIcon
-                            strokeWidth={2}
-                            className="h-4 w-4"
-                          />
-                        )}
+                    <th key={head} className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
+                      <Typography variant="small" color="blue-gray" className="flex items-center justify-between gap-2 font-normal leading-none opacity-70">
+                        {head} {index !== TABLE_HEAD.length - 1 && <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />}
                       </Typography>
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {TABLE_ROWS.map(
-                  (
-                    { kode, job, type, paid, desc, start, end, kuota, stat },
-                    index
-                  ) => {
-                    const isLast = index === TABLE_ROWS.length - 1;
-                    const classes = isLast
-                      ? "p-4"
-                      : "p-4 border-b border-blue-gray-50";
+                {loker.map(({ idloker, idperusahaan, nama_pekerjaan, tipe, deskripsi, status }, index) => {
+                  const isLast = index === TABLE_ROWS.length - 1;
+                  const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
-                    return (
-                      <tr key={kode}>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <div className="flex flex-col">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {kode}
-                              </Typography>
-                            </div>
-                          </div>
-                        </td>
-                        <td className={classes}>
+                  return (
+                    <tr key={idperusahaan}>
+                      <td className={classes}>
+                        <div className="flex items-center gap-3">
                           <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {job}
+                            <Typography variant="small" color="blue-gray" className="font-normal">
+                              {idperusahaan}
                             </Typography>
                           </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <div className="flex flex-col">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {type}
-                              </Typography>
-                            </div>
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        <div className="flex flex-col">
+                          <Typography variant="small" color="blue-gray" className="font-normal">
+                            {nama_pekerjaan}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        <div className="flex items-center gap-3">
+                          <div className="flex flex-col">
+                            <Typography variant="small" color="blue-gray" className="font-normal">
+                              {tipe}
+                            </Typography>
                           </div>
-                        </td>
-                        {/* <td className={classes}>
+                        </div>
+                      </td>
+                      {/* <td className={classes}>
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
@@ -337,20 +309,16 @@ export function Table1() {
                           </Typography>
                         </div>
                       </td> */}
-                        <td className={classes}>
-                          <div className="flex items-center gap-3">
-                            <div className="flex flex-col">
-                              <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-normal"
-                              >
-                                {desc}
-                              </Typography>
-                            </div>
+                      <td className={classes}>
+                        <div className="flex items-center gap-3">
+                          <div className="flex flex-col">
+                            <Typography variant="small" color="blue-gray" className="font-normal">
+                              {deskripsi}
+                            </Typography>
                           </div>
-                        </td>
-                        {/* <td className={classes}>
+                        </div>
+                      </td>
+                      {/* <td className={classes}>
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
@@ -372,7 +340,7 @@ export function Table1() {
                           </Typography>
                         </div>
                       </td> */}
-                        <td className={classes}>
+                      {/* <td className={classes}>
                           <div className="flex flex-col">
                             <Typography
                               variant="small"
@@ -382,59 +350,47 @@ export function Table1() {
                               {kuota}
                             </Typography>
                           </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="w-max">
-                            <Chip
-                              variant="ghost"
-                              size="sm"
-                              value={stat ? "aktif" : "proses"}
-                              color={stat ? "green" : "blue-gray"}
-                            />
-                          </div>
-                        </td>
-                        <td className={classes}>
-                          <div className="grid grid-cols-2 gap-2">
-                            <div>
-                              <Link to={"/detailJob"}>
-                                <Tooltip content="Job Vacancy Detail's">
-                                  <IconButton variant="text">
-                                    <IconEye className="h-4 w-4" />
-                                  </IconButton>
-                                </Tooltip>
-                              </Link>
-                            </div>
-                            <div>
-                              <Link to={"/detailRegList"}>
-                                <Tooltip content="Registrant List">
-                                  <IconButton variant="text">
-                                    <IconList className="h-4 w-4" />
-                                  </IconButton>
-                                </Tooltip>
-                              </Link>
-                            </div>
-                            <div>
-                              <Tooltip content="Delete">
+                        </td> */}
+                      <td className={classes}>
+                        <div className="w-max">{convertStatus(status)}</div>
+                      </td>
+                      <td className={classes}>
+                        <div className="grid grid-cols-2 gap-2">
+                          <div>
+                            <Link to={`/job/${idloker}`}>
+                              <Tooltip content="Job Vacancy Detail's">
                                 <IconButton variant="text">
-                                  <IconTrash className="h-4 w-4" />
+                                  <IconEye className="h-4 w-4" />
                                 </IconButton>
                               </Tooltip>
-                            </div>
+                            </Link>
                           </div>
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
+                          <div>
+                            <Link to={`/job/${idloker}/apply`}>
+                              <Tooltip content="Registrant List">
+                                <IconButton variant="text">
+                                  <IconList className="h-4 w-4" />
+                                </IconButton>
+                              </Tooltip>
+                            </Link>
+                          </div>
+                          <div>
+                            <Tooltip content="Delete">
+                              <IconButton variant="text">
+                                <IconTrash className="h-4 w-4" />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </CardBody>
           <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-            <Typography
-              variant="small"
-              color="blue-gray"
-              className="font-normal"
-            >
+            <Typography variant="small" color="blue-gray" className="font-normal">
               Page 1 of 10
             </Typography>
             <div className="flex gap-2">

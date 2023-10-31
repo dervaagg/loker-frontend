@@ -1,33 +1,33 @@
-import {
-  Card,
-  Input,
-  Button,
-  Typography,
-  CardBody,
-  Select,
-  Option,
-  Textarea,
-} from "@material-tailwind/react";
+import { Card, Input, Button, Typography, CardBody, Select, Option, Textarea } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import React from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useState, useEffect } from "react";
+import dayjs from "dayjs";
+import id from "dayjs/locale/id";
 
-export default function Form4() {
-  const handleDelete = () => {
+dayjs.locale(id);
 
-    axios.delete("http://localhost:9000/api/petugas/loker")
-      .then(response => {
-        console.log("Data berhasil dihapus", response);
+export default function Form4({ idloker, no_ktp }) {
+  const [details, setDetails] = useState({});
 
-        // history.push("/Registrans");
-      })
-      .catch(error => {
-        console.error("Gagal menghapus data", error);
-      });
+  const getDetails = async () => {
+    try {
+      const res = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}`);
+      console.log(res.data);
+      setDetails(res.data);
+    } catch (error) {
+      console.error("Gagal mengambil data", error);
+    }
   };
 
+  useEffect(() => {
+    getDetails();
+  }, []);
+
   return (
-    <div  style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
       <div className="pl-96 py-8 pr-10">
         <div>
           <p className="text-lg font-semibold">Aplicant Detail's</p>
@@ -38,54 +38,65 @@ export default function Form4() {
               <CardBody className="mx-auto">
                 <form className="mb-2 w-80 max-w-screen-lg sm:w-96">
                   <div className="mb-1 flex flex-col gap-6">
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Kode Lowongan Pekerjaan
                     </Typography>
-                    <p>LOKER-001</p>
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <p>{idloker}</p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Nomor KTP
+                    </Typography>
+                    <p>{no_ktp}</p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Nama Pendaftar
                     </Typography>
-                    <p>DECE</p>
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
-                      Domisili
+                    <p>{details?.[0]?.nama_pencaker}</p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Jenis Kelamin
                     </Typography>
-                    <p>Jakarta</p>
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
-                      Status
-                    </Typography>
-                    <p>-</p>
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
-                      Berkas
+                    <p>{details?.[0]?.jenis_kelamin}</p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Tempat dan Tanggal Lahir
                     </Typography>
                     <p>
-                      https://drive.google.com/drive/folders/1hVqd-1_A_QRqgZPhXqoBGpwSlo52lQDb
+                      {details?.[0]?.tempat_lahir}, {dayjs(details?.[0]?.tanggal_lahir).format("DD MMMM YYYY")}
                     </p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Alamat
+                    </Typography>
+                    <p>
+                      {details?.[0]?.alamat}
+                    </p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Kota
+                    </Typography>
+                    <p>
+                      {details?.[0]?.kota}
+                    </p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Email
+                    </Typography>
+                    <p>
+                      {details?.[0]?.email}
+                    </p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Nomor Telepon
+                    </Typography>
+                    <p>
+                      {details?.[0]?.no_telp}
+                    </p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Berkas
+                    </Typography>
+                    <p>{details?.[0]?.file_ktp}</p>
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
+                      Status
+                    </Typography>
+                    <p>{details?.[0]?.tahapan}</p>
                   </div>
                   <div className="flex gap-4 mt-6 justify-end">
-                    <Link to={"/updateReg"}>
-                    <Button color="amber">Update</Button>
+                    <Link to={`/job/${idloker}/apply/${no_ktp}/edit`}>
+                      <Button color="amber">Update</Button>
                     </Link>
-                    <Button color="red" onClick={handleDelete}>Delete</Button>
                   </div>
                 </form>
               </CardBody>
