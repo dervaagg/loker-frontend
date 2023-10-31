@@ -7,31 +7,37 @@ export function Login() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email:'',
-    password:'',
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({...formData, [name]: value})
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const data = {
       email: formData.email,
-      password: formData.password
-    }
+      password: formData.password,
+    };
 
     try {
-      const response = await axios.post("http://localhost:9000/api/petugas", data);
+      const response = await axios.post(
+        "http://localhost:9000/api/petugas",
+        data
+      );
       console.log("Submitted data:", data);
-      navigate("/home");
+      console.log(response);
 
+      localStorage.setItem("token", JSON.stringify(response.data));
+
+      navigate("/home");
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <div className="flex items-center justify-center h-screen">
@@ -73,9 +79,9 @@ export function Login() {
               />
             </div>
             {/* <Link to={"/Home"}> */}
-              <Button onClick={handleSubmit} className="mt-6" fullWidth>
-                Log In
-              </Button>
+            <Button onClick={handleSubmit} className="mt-6" fullWidth>
+              Log In
+            </Button>
             {/* </Link> */}
           </form>
         </div>

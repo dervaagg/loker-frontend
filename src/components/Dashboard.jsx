@@ -6,18 +6,20 @@ import "chart.js/auto";
 import { Doughnut } from "react-chartjs-2";
 
 export function Dashboard() {
-  const DonutData = {
-    labels: ["Lolos", "Tidak Lolos"],
-    datasets: [
-      {
-        label: "Poll",
-        data: [3, 6],
-        backgroundColor: ["rgb(102, 178, 255)", "rgb(255, 102, 102)"],
-        borderColor: ["rgb(102, 178, 255)", "rgb(255, 102, 132)"],
-        hoverOffset: 4,
-      },
-    ],
-  };
+  // const DonutData = {
+  //   labels: ["Lolos", "Tidak Lolos"],
+  //   datasets: [
+  //     {
+  //       label: "Poll",
+  //       data: [3, 6],
+  //       backgroundColor: ["rgb(102, 178, 255)", "rgb(255, 102, 102)"],
+  //       borderColor: ["rgb(102, 178, 255)", "rgb(255, 102, 132)"],
+  //       hoverOffset: 4,
+  //     },
+  //   ],
+  // };
+
+  const [donutData, setDonutData] = useState(null);
 
   const options = {};
   // const [setDonutData] = useState({})
@@ -46,9 +48,31 @@ export function Dashboard() {
           (data) =>
             data.kolom === "Total Laki-laki" || data.kolom === "Total Perempuan"
         );
-        console.log(filter);
 
-        // setDonutData(filter)
+        // untuk mencari object dalam array yang memiliki field "kolom" bernilai "Total Lolos'
+        const lolosValue = dataObj.filter(
+          (data) => data.kolom === "Total Pencaker"
+        );
+
+        // untuk mencari object dalam array yang memiliki field "kolom" bernilai "Total Tidak Lolos'
+        const tidakLolosValue = dataObj.filter(
+          (data) => data.kolom === "Total Loker"
+        );
+
+        const dataDonut = {
+          labels: [lolosValue[0].kolom, tidakLolosValue[0].kolom],
+          datasets: [
+            {
+              label: "Poll",
+              data: [lolosValue[0].total, tidakLolosValue[0].total],
+              backgroundColor: ["rgb(102, 178, 255)", "rgb(255, 102, 102)"],
+              borderColor: ["rgb(102, 178, 255)", "rgb(255, 102, 132)"],
+              hoverOffset: 4,
+            },
+          ],
+        };
+
+        setDonutData(dataDonut);
       })
       .catch((err) => {
         console.log(err);
@@ -59,6 +83,8 @@ export function Dashboard() {
     res.then((result) => setResult(result.data));
     Chart();
   }, []);
+
+  console.log(donutData);
 
   // console.log(donutData)
 
@@ -97,7 +123,8 @@ export function Dashboard() {
               Status
             </Typography>
             <p className="mb-5">
-              Chart ini merupakan kalkulasi jumlah pendaftar yang dinyatakan <b>lolos</b> dan <b>tidak lolos</b>
+              Chart ini merupakan kalkulasi jumlah pendaftar yang dinyatakan{" "}
+              <b>lolos</b> dan <b>tidak lolos</b>
             </p>
             <div
               style={{
@@ -109,7 +136,7 @@ export function Dashboard() {
                 height: "600px",
               }}
             >
-              <Doughnut data={DonutData} options={options} />
+              {donutData && <Doughnut data={donutData} options={options} />}
             </div>
           </CardBody>
         </Card>
