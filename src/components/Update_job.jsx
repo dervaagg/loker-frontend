@@ -194,6 +194,8 @@ export default function Form3({ idloker }) {
                       type="date"
                       size="lg"
                       placeholder=""
+                      value={formData.tgl_tutup}
+                      onChange={handleChange}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",

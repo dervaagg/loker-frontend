@@ -1,24 +1,46 @@
 import { Card, Input, Button, Typography, CardBody, Select, Option, Textarea } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import React from "react";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import id from "dayjs/locale/id";
-
+import { useNavigate } from "react-router-dom";
 dayjs.locale(id);
 
-export default function Form4({ idloker, no_ktp }) {
+export default function Form4({ idloker, no_ktp, idapply, idtahapan }) {
   const [details, setDetails] = useState({});
+  const [formData, setFormData] = useState({
+    nilai: null,
+  });
+  const navigate = useNavigate();
 
   const getDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}`);
+      const res = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}/${idapply}/${idtahapan}`);
       console.log(res.data);
       setDetails(res.data);
     } catch (error) {
       console.error("Gagal mengambil data", error);
+    }
+  };
+
+  const handleSubmit = async (data) => {
+    // e.preventDefault();
+    // const data = {
+    //   nilai: formData.nilai,
+    // };
+
+    console.log("Submitted data:", data);
+
+    try {
+      const response = await axios.put(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}/${idapply}/${idtahapan}`, data);
+
+      console.log("Submitted data:", data);
+      navigate(`/job/${idloker}/apply`);
+    } catch (error) {
+      console.error(error)
     }
   };
 
@@ -63,27 +85,19 @@ export default function Form4({ idloker, no_ktp }) {
                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Alamat
                     </Typography>
-                    <p>
-                      {details?.[0]?.alamat}
-                    </p>
+                    <p>{details?.[0]?.alamat}</p>
                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Kota
                     </Typography>
-                    <p>
-                      {details?.[0]?.kota}
-                    </p>
+                    <p>{details?.[0]?.kota}</p>
                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Email
                     </Typography>
-                    <p>
-                      {details?.[0]?.email}
-                    </p>
+                    <p>{details?.[0]?.email}</p>
                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Nomor Telepon
                     </Typography>
-                    <p>
-                      {details?.[0]?.no_telp}
-                    </p>
+                    <p>{details?.[0]?.no_telp}</p>
                     <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Berkas
                     </Typography>
@@ -93,10 +107,18 @@ export default function Form4({ idloker, no_ktp }) {
                     </Typography>
                     <p>{details?.[0]?.tahapan}</p>
                   </div>
-                  <div className="flex gap-4 mt-6 justify-end">
-                    <Link to={`/job/${idloker}/apply/${no_ktp}/edit`}>
+                  <div className="flex gap-4 mt-6 justify-between">
+                    {/* <Link to={`/job/${idloker}/apply/${no_ktp}/edit`}>
                       <Button color="amber">Update</Button>
-                    </Link>
+                    </Link> */}
+
+                    <Button onClick={() => handleSubmit({nilai: 1})} className="mt-6" color="green">
+                      LOLOS
+                    </Button>
+
+                    <Button onClick={() => handleSubmit({nilai: 0})} className="mt-6" color="red">
+                      TIDAK LOLOS
+                    </Button>
                   </div>
                 </form>
               </CardBody>

@@ -1,13 +1,4 @@
-import {
-  Card,
-  Input,
-  Button,
-  Typography,
-  CardBody,
-  Select,
-  Option,
-  Textarea,
-} from "@material-tailwind/react";
+import { Card, Input, Button, Typography, CardBody, Select, Option, Textarea } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import async from "q";
@@ -15,33 +6,46 @@ import axios from "axios";
 import dayjs from "dayjs";
 import id from "dayjs/locale/id";
 
-dayjs.locale(id)
+dayjs.locale(id);
 
-export function Form5({idloker, no_ktp}) {
-  const [details, setDetails] = useState({});
+export function Form5({ idloker, no_ktp }) {
+  const [formData, setFormData] = useState({});
 
   const getDetails = async () => {
     try {
       const res = await axios.get(`http://localhost:9000/api/petugas/loker/${idloker}/apply/${no_ktp}`);
       console.log(res.data);
-      setDetails(res.data);
+      setFormData(res.data);
     } catch (error) {
       console.error("Gagal mengambil data", error);
     }
   };
-  const [formData, setFormData] = useState({
-    status: "",
-  });
+
+  console.log(formData);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData([{ ...formData?.[0], [name]: value }]);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const convertTahapan = (tahapan) => {
+      // console.log(tahapan === "Seleksi Administrasi", tahapan, formData?.[0]?.tahapan);
+      // console.log(tahapan === "Seleksi Wawancara", tahapan, formData?.[0]?.tahapan);
+
+      if (tahapan === "Seleksi Administrasi") {
+        return 1;
+      } else if (tahapan === "Seleksi Wawancara") {
+        return 2;
+      }
+    };
+
+    // formData?.[0]?.tahapan = convertTahapan(formData?.[0]?.tahapan);
+
     const data = {
-      status: formData.status,
+      idtahapan: convertTahapan(formData?.[0]?.tahapan),
     };
 
     console.log("Submitted data:", data);
@@ -64,7 +68,7 @@ export function Form5({idloker, no_ktp}) {
 
   useEffect(() => {
     getDetails();
-  }, [])
+  }, []);
 
   return (
     <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
@@ -78,16 +82,12 @@ export function Form5({idloker, no_ktp}) {
               <CardBody className="mx-auto">
                 <form onSubmit={handleSubmit} className="mb-2 w-80 max-w-screen-lg sm:w-96">
                   <div className="mb-1 flex flex-col gap-6">
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Kode Lowongan Pekerjaan
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.idloker}
+                      placeholder={formData?.[0]?.idloker}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -95,16 +95,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Nomor KTP
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.no_ktp}
+                      placeholder={formData?.[0]?.no_ktp}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -112,16 +108,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Nama Pendaftar
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.nama_pencaker}
+                      placeholder={formData?.[0]?.nama_pencaker}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -129,16 +121,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Jenis Kelamin
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.jenis_kelamin}
+                      placeholder={formData?.[0]?.jenis_kelamin}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -146,16 +134,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Tempat dan Tanggal Lahir
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.tempat_lahir + ", " + dayjs(details?.[0]?.tanggal_lahir).format("DD MMMM YYYY")}
+                      placeholder={formData?.[0]?.tempat_lahir + ", " + dayjs(formData?.[0]?.tanggal_lahir).format("DD MMMM YYYY")}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -163,16 +147,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Alamat
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.alamat}
+                      placeholder={formData?.[0]?.alamat}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -180,16 +160,12 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Kota
                     </Typography>
                     <Input
                       size="lg"
-                      placeholder={details?.[0]?.kota}
+                      placeholder={formData?.[0]?.kota}
                       className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
                       labelProps={{
                         className: "before:content-none after:content-none",
@@ -197,11 +173,7 @@ export function Form5({idloker, no_ktp}) {
                       label=""
                       disabled
                     />
-                    <Typography
-                      variant="h6"
-                      color="blue-gray"
-                      className="-mb-3"
-                    >
+                    <Typography variant="h6" color="blue-gray" className="-mb-3">
                       Status Pendaftar
                     </Typography>
                     <Select
@@ -210,17 +182,17 @@ export function Form5({idloker, no_ktp}) {
                         mount: { y: 0 },
                         unmount: { y: 25 },
                       }}
+                      name="idtahapan"
                       // defaultValue={parseInt(details?.[0]?.idtahapan)}
-                      value={parseInt(formData.status)}
+                      value={formData?.[0]?.tahapan}
                       onChange={(value) => {
-                        handleChange({ target: { name: "status", value: value } });
+                        handleChange({ target: { name: "tahapan", value: value } });
                       }}
-
                     >
                       {/* <Option>Diterima</Option>
                       <Option>Ditolak</Option> */}
-                      <Option value={1}>Proses Administrasi</Option>
-                      <Option value={2}>Proses Wawancara</Option>
+                      <Option value="Seleksi Administrasi">Seleksi Administrasi</Option>
+                      <Option value="Seleksi Wawancara">Seleksi Wawancara</Option>
                     </Select>
                     {/* <Typography
                       variant="h6"
@@ -240,9 +212,7 @@ export function Form5({idloker, no_ktp}) {
                       disabled
                     /> */}
                     <a href="#" className="text-blue-600">
-                      <p className="text-sm font-light underline">
-                        Cek berkas disini
-                      </p>
+                      <p className="text-sm font-light underline">Cek berkas disini</p>
                     </a>
                   </div>
                   <Button onClick={handleSubmit} color="amber" className="mt-6" fullWidth>

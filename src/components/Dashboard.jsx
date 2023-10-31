@@ -71,7 +71,7 @@ export function Dashboard() {
         )}
           return null  })}
       </div>
-      <div className="ml-80 py-4 px-16">
+      {/* <div className="ml-80 py-4 px-16">
         <Card className="w-full h-screen">
           <CardBody>
             <Typography
@@ -81,13 +81,13 @@ export function Dashboard() {
             >
               Chart Diterima vs Gagal
             </Typography>
-            {/* <Typography className="text-center">Dougnut Chart</Typography> */}
-            {/* <PieChart width={400} height={400}>
+            <Typography className="text-center">Dougnut Chart</Typography>
+            <PieChart width={400} height={400}>
               <Pie data={donutData} dataKey="total" nameKey="kolom" cx="50%" cy="50%" innerRadius={60} outerRadius={80} fill="#82ca9d" />
-            </PieChart> */}
+            </PieChart>
           </CardBody>
         </Card>
-      </div>
+      </div> */}
     </div>
   );
 }

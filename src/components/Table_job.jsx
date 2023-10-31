@@ -5,6 +5,7 @@ import { IconEye, IconList, IconTrash } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Select, Option } from "@material-tailwind/react";
 
 // const TABS = [
 //   {
@@ -205,16 +206,22 @@ const TABLE_ROWS = [
 
 export function Table1() {
   const [loker, setLoker] = useState([]);
+  const [status, setStatus] = useState("Semua");
 
   useEffect(() => {
     axios
-      .get("http://localhost:9000/api/petugas/loker")
+      .get("http://localhost:9000/api/petugas/loker", {
+        params: {
+          status: status,
+        },
+      })
       .then((res) => {
         // console.log(res.data)
         setLoker(res.data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [status]);
+
 
   const convertStatus = (status) => {
     if (status === "Aktif") {
@@ -225,6 +232,8 @@ export function Table1() {
       return <Chip variant="ghost" size="sm" value={"Ditutup"} color={"red"} />;
     }
   };
+
+  console.log(status);
 
   return (
     <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
@@ -237,23 +246,29 @@ export function Table1() {
             See information about job vacancy
           </Typography>
         </div>
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row bg-white p-4 border rounded-xl shadow-sm my-4">
+          <div className="flex shrink-0 flex-col gap-2 sm:flex-row w-full md:w-max">
+            <Link to={"/addJob"}>
+              <Button className="flex items-center gap-3" size="sm">
+                <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add job
+              </Button>
+            </Link>
+          </div>
+          <div className="w-full md:w-72 relative">
+            <Select variant="standard" value={status} onChange={(value) => setStatus(value)}>
+              <Option value="Semua">Semua</Option>
+              <Option value="1">Aktif</Option>
+              <Option value="2">Proses Seleksi</Option>
+              <Option value="3">Ditutup</Option>
+            </Select>
+          </div>
+        </div>
+
         <Card className="h-full w-full">
-          <CardHeader floated={false} shadow={false} className="rounded-none">
+          {/* <CardHeader floated={false} shadow={false} className="rounded-none">
             <div className="mb-8 flex items-center justify-between gap-8"></div>
-            <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-              <div className="flex shrink-0 flex-col gap-2 sm:flex-row w-full md:w-max">
-                <Link to={"/addJob"}>
-                  <Button className="flex items-center gap-3" size="sm">
-                    <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add job
-                  </Button>
-                </Link>
-              </div>
-              <div className="w-full md:w-72">
-                <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
-              </div>
-            </div>
-          </CardHeader>
-          <CardBody className="px-0">
+          </CardHeader> */}
+          <CardBody className="px-0 static">
             <table className="mt-4 w-full min-w-max table-auto text-left">
               <thead>
                 <tr>

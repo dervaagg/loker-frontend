@@ -6,9 +6,12 @@ import { useParams } from "react-router-dom";
 export default function DetailRegList() {
   const { jobId } = useParams();
   const { regId } = useParams();
+  const { appId } = useParams();
+  const { thpId } = useParams();
+  
   return (
     <Layout>
-      <Table3 idloker={jobId} no_ktp={regId} />
+      <Table3 idloker={jobId} no_ktp={regId} idapply={appId} idtahapan={thpId} />
     </Layout>
   );
 }
